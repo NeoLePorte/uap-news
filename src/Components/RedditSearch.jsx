@@ -1,5 +1,3 @@
-// 
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import RedditLinkList from './RedditLinkList';
@@ -52,10 +50,12 @@ const RedditSearch = () => {
   }, [page]);
 
   const handleScroll = (e) => {
+    console.log('HandleScroll works')
     const bottom =
       e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
     if (bottom) {
       setPage(page + 1);
+      console.log(`at bottom and ${page} has incrimented`)
     }
   };
 

@@ -120,11 +120,11 @@ body {
   font-family: 'Orbitron';
   font-size: 3rem;
   text-align: center;
-  background: linear-gradient(45deg, #4ecdc4, #4ecdc4 50%, #e60073 50%, #e60073);
+  background: linear-gradient(45deg, #4ecdc4, #4ecdc4 50%, #f00303 50%, #00e69d);
   background-size: 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 10px #e60073, 0 0 20px #e60073, 0 0 40px #e60073, 0 0 80px #e60073, 0 0 120px #e60073;
+  text-shadow: 0 0 10px #8e00e6, 0 0 20px #1dff30, 0 0 40px #6200ff, 0 0 80px #72e954, 0 0 120px #72e954;
 }
 
 /* Style the search bar */
