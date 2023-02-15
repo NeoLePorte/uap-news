@@ -7,7 +7,13 @@ body {
   background-size: cover;
   background-position: center;
   color: #FFFFFF;
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Orbitron', 'MyFont';
+}
+@font-face {
+  font-family: 'MyFont';
+  src: local('MyFont'), url(./Martyric_PersonalUse.ttf) format('ttf');
+  /* other formats include: 'woff2', 'truetype, 'opentype',
+                            'embedded-opentype', and 'svg' */
 }
 
 .container {
@@ -102,12 +108,13 @@ body {
   align-items: center;
   margin-bottom: 10px;
   padding: 10px;
-  width: 100%;
+  width: 50%;
   border: 2px solid #00FF3C;
   border-radius: 10px;
   box-shadow: 0px 0px 20px #00FF3C;
   transition: all 0.3s ease-in;
 }
+
 
 
 /* Set the font-family for the entire page to a futuristic font */
@@ -146,6 +153,7 @@ form {
   border-bottom: 3px solid #4ecdc4;
   background-color: black;
   color: white;
+  width: 25%;
 }
 
 .search-input:focus {

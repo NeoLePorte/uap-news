@@ -1,26 +1,67 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import RedditLinkList from './RedditLinkList';
+import { throttle } from 'lodash';
+import anime from 'animejs/lib/anime.es.js';
+
 
 const RedditSearch = () => {
+  window.addEventListener('scroll', () => {
+    if (window.scrollY + window.innerHeight >= document.body.offsetHeight + 1000) {
+      setPage(page + 1);
+    }
+  });
   const [searchTerm, setSearchTerm] = useState('');
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [after, setAfter] = useState('');
-  const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [page, setPage] = useState(1);
-
-  const handleSubmit = (e, reset = false) => {
+  const handleSubmit = throttle((e, reset = false) => {
     e.preventDefault();
     if (reset) {
       setPosts([]);
       setAfter('');
+      fetchData();
     }
     setPage(1);
     fetchData();
-  };
+  }, 1000);
+
+  useEffect(() => {
+    const loadingAnimation = anime.timeline({
+      easing: 'easeOutSine',
+      duration: 700,
+      autoplay: false,
+      loop: true,
+    });
+
+    loadingAnimation.add({
+      targets: '.loading-line',
+      scaleX: [0, 1],
+      opacity: [0.5, 1],
+    });
+
+    loadingAnimation.add({
+      targets: '.loading-line',
+      scaleX: [1, 0],
+      opacity: [1, 0.5],
+    });
+
+    loadingAnimation.play();
+
+    return () => {
+      loadingAnimation.pause();
+      loadingAnimation.seek(0);
+    };
+  }, []);
+
+
+
+  useEffect(() => {
+    fetchData();
+  }, [page]);
 
   const fetchData = () => {
     setLoading(true);
@@ -37,45 +78,41 @@ const RedditSearch = () => {
         setLoading(false);
       });
   };
-
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    const response = await axios.get(`https://www.reddit.com/search.json?q=${searchQuery}&type=link&restrict_sr=on`);
-    const links = response.data.data.children.map(child => child.data);
-    setSearchResults(links);
-  };
-
   useEffect(() => {
-    fetchData();
-  }, [page]);
-
-  const handleScroll = (e) => {
-    console.log('HandleScroll works')
-    const bottom =
-      e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
-    if (bottom) {
-      setPage(page + 1);
-      console.log(`at bottom and ${page} has incrimented`)
+    if (searchTerm) {
+      const results = posts.filter(post =>
+        post.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setSearchResults(results);
+    } else {
+      setSearchResults([]);
     }
-  };
+  }, [searchTerm, posts]);
+  
 
-  return (
-    <div className="reddit-search" onScroll={handleScroll}>
-      <form onSubmit={handleSearch}>
+
+  return (   
+    <div className="reddit-search">
+      <form onSubmit={handleSubmit}>
         <input
           className="search-input"
           type="text"
           placeholder="Search for UAP News on Reddit"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <button className="search-button" type="submit">Search</button>
+        <button className="search-button" onClick={(e) => handleSubmit(e, true)} type="submit">Search</button>
+        {loading && (
+        <div className="loading-animation">
+          <div className="loading-line"></div>
+        </div>
+      )}
       </form>
       <RedditLinkList links={searchResults.length ? searchResults : posts} />
-      {loading && <p>Loading...</p>}
       {error && <p>Error: {error.message}</p>}
     </div>
   );
 };
 
 export default RedditSearch;
+
