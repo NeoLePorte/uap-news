@@ -1,1 +1,1 @@
-Messing around with aggregating information on UAPs and strang happenings.
+Messing around with aggregating information on UAPs and strange happenings.
