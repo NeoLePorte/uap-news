@@ -3,11 +3,10 @@ import anime from 'animejs';
   const RedditLink = forwardRef(({ link }, ref) => {
   const { title, subreddit_name_prefixed, author, created_utc, permalink } = link;
   const date = new Date(created_utc * 1000);
-  const linkRef = React.useRef(ref);
    React.useEffect(() => {
-    console.log(linkRef.current);
+
      const animation = anime({
-       targets: linkRef.current,
+       targets: ref.current,
        opacity: [0, 1],
        translateX: [-500, 0],
        easing: 'easeOutExpo',

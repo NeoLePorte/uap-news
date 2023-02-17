@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 const RedditLinkList = forwardRef(({ links }, ref) => {
   const listRef = React.useRef(ref);
-console.log(listRef)
   React.useEffect(() => {
     const animation = anime({
 
