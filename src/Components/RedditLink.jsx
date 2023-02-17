@@ -17,7 +17,7 @@ import anime from 'animejs';
      return () => {
        animation.pause();
      };
-   }, [link]);
+   }, [link, ref]);
    return (
      <div className="reddit-link" ref={ref}>
        <div className="reddit-link-info">
